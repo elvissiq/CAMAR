@@ -99,6 +99,7 @@ Static Function ExcBordero(cDoc, cSerie, cCodCli, cLoja)
 
 	If lMsErroAuto
 		MostraErro()
+	/*
 	Else
 		SetRegua(10)
 		While nCount < 11 .And. !(lRetFI2)
@@ -138,6 +139,7 @@ Static Function ExcBordero(cDoc, cSerie, cCodCli, cLoja)
 				End
 			EndIF
 		EndIF
+	*/
 	EndIf
 
 	FWRestArea(aAreaSEA)
