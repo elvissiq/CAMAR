@@ -60,8 +60,7 @@ User Function PE01NFESEFAZ()
     Local nVolume   := 0
     Local _nI
     Local cCNPJ     := Alltrim(FWSM0Util():GetSM0Data( cEmpAnt , cFilAnt , { "M0_CGC" } )[1][2])
-    Local aMsgNF    := {
-                        {"04458510000168", "RGP PB-R1153059-0"},;
+    Local aMsgNF    := {{"04458510000168", "RGP PB-R1153059-0"},;
                         {"04458510000249", "RGP R1155730-0 S.I.F 925"},;
                         {"11808952000152", "RGP R1153852-0"},;
                         {"11808952000314", "RGP RN-U1152402-0"},;
@@ -69,8 +68,7 @@ User Function PE01NFESEFAZ()
                         {"04782319000258", "RGP RN-R1153373-0"},;
                         {"04782319000339", "RGP RN-R1156396-0"},;
                         {"11808952000667", "RGP RN-U1157171-1"},;
-                        {"11808952000233", "Operação isenta de ICMS conforme Art. 7º do RICMS RN, anexo 1 Art. 6º, inciso I. RGP RN-R1156428"};
-                       }
+                        {"11808952000233", "Operação isenta de ICMS conforme Art. 7º do RICMS RN, anexo 1 Art. 6º, inciso I. RGP RN-R1156428"}}
     Local nPosCGC   := aScan(aMsgNF,{|x| AllTrim(x[01]) == AllTrim(cCNPJ)})
 
     If !Empty(nPosCGC)
