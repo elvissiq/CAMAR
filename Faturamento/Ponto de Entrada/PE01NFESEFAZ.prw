@@ -57,6 +57,7 @@ User Function PE01NFESEFAZ()
     Local aProcRef  := PARAMIXB[18]
     Local aRetorno  := {}
 
+    Local aAreaSD2	:= SD2->(FWGetArea())
     Local nVolume   := 0
     Local _nI
     Local cCNPJ     := Alltrim(FWSM0Util():GetSM0Data( cEmpAnt , cFilAnt , { "M0_CGC" } )[1][2])
@@ -75,23 +76,34 @@ User Function PE01NFESEFAZ()
         cMensCli := cMensCli + " " + aMsgNF[nPosCGC][2]
     EndIF 
 
+    DBSelectArea("SD2")
+    SD2->(DBSetOrder(3)) 
+
     If aNota[4] == "1" // Se for Nota Fiscal de Saída 
         
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
         //@ Bloco responsável por acrescenta o Número do LOTE. ///// INICIO /////
         For _nI := 1  to Len(aProd) 
-
-            nVolume += aProd[_nI,9] //Soma a quantidade dos produtos 
+            
+            IF SD2->(MsSeek(xFilial("SD2")+aNota[2]+aNota[1]+aNota[7]+aNota[8]+aProd[_nI][2]+STrZero(aProd[_nI][1],2))) //D2_FILIAL+D2_DOC+D2_SERIE+D2_CLIENTE+D2_LOJA+D2_COD+D2_ITEM
+                If !Empty(SD2->D2_QTSEGUM) //Segunda Unidade de Medida
+                    nVolume += SD2->D2_QTSEGUM
+                EndIF
+            EndIF
 
         Next _nI
         //@ Bloco responsável por acrescenta o Número do LOTE. ///// FIM /////
         //--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
+        If !Empty(aEspVol) .And. nVolume > 0
+            IF Empty(aEspVol[1,2])
+                aEspVol[1,2] := nVolume
+            EndIF
+        EndIF
+
     EndIF 
 
-    If !Empty(aEspVol)
-        aEspVol[1,2] := nVolume
-    EndIF
+    FWRestArea(aAreaSD2)
 
     aadd(aRetorno,aProd)
     aadd(aRetorno,cMensCli)
