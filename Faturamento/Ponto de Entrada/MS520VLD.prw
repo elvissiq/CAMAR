@@ -53,9 +53,7 @@ Static Function ExcBordero(cDoc, cSerie, cCodCli, cLoja)
 	Local cTmp     := "TMP"+FWTimeStamp(1)
 	Local cFiltro  := ""
 	Local aRegBor  := {}
-	Local nCount   := 0
 	Local cNumBor  := CriaVar("E1_NUMBOR", .F.)
-	Local lRetFI2  := .F.
 
 	Private lMsErroAuto    := .F.
 	Private lMsHelpAuto    := .T.
@@ -99,6 +97,7 @@ Static Function ExcBordero(cDoc, cSerie, cCodCli, cLoja)
 
 	If lMsErroAuto
 		MostraErro()
+		lRet := .T.
 	/*
 	Else
 		SetRegua(10)
